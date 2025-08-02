@@ -1,0 +1,2 @@
+0 9 * * * root cd /app && php artisan tasks:remind-due-soon >> /var/log/cron.log 2>&1
+0 6 25 * * root cd /app && php artisan app:auto-create-monthly-evaluations >> /var/log/cron.log 2>&1

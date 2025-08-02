@@ -1,0 +1,11 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY ./kpi_fe .
+
+RUN npm install && npm run build
+
+EXPOSE 8198
+
+CMD ["npm", "start"]
