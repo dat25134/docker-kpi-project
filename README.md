@@ -132,10 +132,20 @@ NEXT_PUBLIC_SOCKET_URL=http://localhost:6001
 # Build tất cả services
 docker-compose build
 
-# Chạy tất cả services
+# Chạy riêng service backend trước để tạo app key
+docker-compose up -d mysql redis
+docker-compose up -d be
+
+# Tạo Laravel app key
+docker-compose exec be php artisan key:generate
+
+# Dừng tất cả services
+docker-compose down
+
+# Chạy lại tất cả services
 docker-compose up -d
 
-# Hoặc chạy từng service
+# Hoặc chạy từng service theo thứ tự
 docker-compose up -d mysql redis
 docker-compose up -d be
 docker-compose up -d fe echo queue cron
@@ -280,6 +290,16 @@ docker-compose exec be composer clear-cache
 
 # Reinstall dependencies
 docker-compose exec be composer install --no-cache
+```
+
+6. **Laravel app key error:**
+```bash
+# Nếu gặp lỗi "No application encryption key has been specified"
+docker-compose up -d mysql redis
+docker-compose up -d be
+docker-compose exec be php artisan key:generate
+docker-compose down
+docker-compose up -d
 ```
 
 ### Performance optimization
